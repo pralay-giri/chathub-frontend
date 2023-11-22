@@ -1,0 +1,105 @@
+.add-contact-modal-background {
+        position: absolute;
+        inset: 0;
+        backdrop-filter: blur(5px);
+        animation: animate .2s linear;
+}
+
+@keyframes animate {
+    0% {
+        background-color: transparent;
+    }
+
+    100% {
+        background-color: var(--modal-background-color);
+    }
+}
+
+#add-contact-modal {
+    background-color: var(--info-text-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 50%;
+    padding: 10px;
+    gap: 2rem;
+    border-radius: 5px;
+    transition: scale .2s linear;
+    animation: modal .2s linear;
+}
+
+@keyframes modal {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+#add-contact-modal #add-contact-modal-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: var(--text-color);
+}
+
+#add-contact-modal #add-contact-modal-head>button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    animation: animate .3s linear;
+}
+
+@keyframes animate {
+    0% {
+        opacity: .5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+#add-contact-modal #add-contact-modal-body {
+    padding: 8px;
+    outline: none;
+    border: none;
+    font-size: medium;
+    border-radius: 3px;
+}
+
+#add-contact-modal #add-contact-modal-body::-webkit-outer-spin-button,
+#add-contact-modal #add-contact-modal-body::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+#add-contact-modal #add-contact-modal-footer {
+    text-align: right;
+}
+
+#add-contact-modal #add-contact-modal-footer>button {
+    background-color: #0069d9;
+    outline: none;
+    border: none;
+    padding: 6px;
+    margin-right: 10px;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: .8;
+    transition: all .3s;
+}
+
+#add-contact-modal #add-contact-modal-footer>button:is(:hover, :focus) {
+    opacity: 1;
+}
+
+#add-contact-modal #add-contact-modal-footer>button:last-child {
+    background-color: red;
+}

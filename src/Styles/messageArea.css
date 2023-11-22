@@ -1,0 +1,6 @@
+.messageArea {
+    background-color: #fafafa;
+    grid-column: 2/3;
+    border: 1px solid black;
+    border-radius: 10px;
+}

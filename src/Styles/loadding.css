@@ -1,0 +1,64 @@
+.loadding-div {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(5px);
+    display: grid;
+    place-items: center;
+}
+
+.loadding-div>p {
+    position: absolute;
+    color: var(--text-color);
+    font-size: large;
+    animation: textAnimation 2s infinite;
+
+}
+
+@keyframes textAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    75% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.loadding-div .loadding-inner-div {
+    width: 10rem;
+    height: 10rem;
+    position: relative;
+    border-radius: 50%;
+}
+
+.loadding-div .loadding-inner-div::after {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    background-color: transparent;
+    border-radius: 50%;
+    box-shadow: 0 3px 0 var(--info-text-color);
+    animation: rotate .5s linear infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

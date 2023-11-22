@@ -1,0 +1,200 @@
+.create-group-modal-background {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(5px);
+    animation: animate .2s linear;
+}
+
+@keyframes animate {
+    0% {
+        background-color: transparent;
+    }
+
+    100% {
+        background-color: var(--modal-background-color);
+    }
+}
+
+.create-group-modal {
+    background-color: var(--info-text-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem;
+    gap: 1rem;
+    border-radius: 5px;
+    transition: scale .2s linear;
+    animation: modal .2s linear;
+    max-height: 60%;
+}
+
+@keyframes modal {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.create-group-modal-header {
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: large;
+}
+
+.create-group-modal-header .title {
+    font-weight: 700;
+}
+
+.create-group-modal .profile-area{
+    text-align: center;
+}
+
+.create-group-modal .group-profile{
+    cursor: pointer;
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+}
+
+#modal-close-btn{
+    cursor: pointer;
+    color: var(--text-color);
+    transition: color .3s linear;
+}
+
+#modal-close-btn:hover{
+    color: black;
+}
+
+.create-group-modal-header .closeBtn,
+.create-group-modal-body .select-contact-input .add-icon {
+    color: var(--text-color);
+    transition: color .3s linear;
+    cursor: pointer;
+}
+
+.create-group-modal-header .closeBtn:hover,
+.create-group-modal-body .select-contact-input .add-icon:hover {
+    color: black;
+}
+
+.create-group-modal-body {
+    overflow-y: auto;
+}
+
+.create-group-modal-body input {
+    position: relative;
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    color: var(--text-color);
+    font-size: medium;
+    margin-bottom: 5px;
+}
+
+.create-group-modal-body input:is(:focus, :hover) {
+    outline: 1px solid var(--text-color-less);
+}
+
+.create-group-modal-body .select-contact-input {
+    position: relative;
+}
+
+.create-group-modal-body .select-contact-input .add-icon {
+    position: absolute;
+    inset: 0;
+    font-size: 1.5em;
+    top: 10%;
+    left: 92%;
+}
+
+.create-group-modal-body .selected-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.create-group-modal-body .selected-contacts .contactModal-container {
+    background-color: aliceblue;
+    border-radius: 10px;
+    display: flex;
+    padding: 5px;
+    align-items: center;
+}
+
+.create-group-modal-body .selected-contacts .contactModal-container  #delete-contact-btn{
+    font-size: .8rem;
+}
+
+.create-group-modal-body .selected-contacts .contactModal-name {
+    color: var(--text-color);
+    font-size: 1rem;
+    padding: 2px;
+    pointer-events: none;
+}
+
+.create-group-modal-body .selected-contacts .contactModal-img {
+    width: 1.5rem;
+    height: 1.5rem;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    border: 1px solid black;
+    pointer-events: none;
+}
+
+.create-group-modal-body .selected-contacts #delete-contact-btn {
+    color: var(--text-color);
+    transition: color .3s linear;
+    cursor: pointer;
+}
+
+.create-group-modal-body .selected-contacts #delete-contact-btn:hover {
+    color: black;
+}
+
+.create-group-modal-footer{
+    text-align: right;
+}
+
+#group-create-btn,
+#group-modal-close-btn {
+    outline: none;
+    border: none;
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    opacity: .8;
+    transition: all .3s linear;
+}
+
+#group-create-btn{
+    background-color: #0069d9;
+}
+
+#group-modal-close-btn{
+    background-color: red;
+}
+
+:is(#group-create-btn,
+#group-modal-close-btn):is(:hover, :focus){
+    opacity: 1;
+}
+

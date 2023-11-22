@@ -1,0 +1,154 @@
+.message-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 15px;
+    background-color: none;
+}
+
+.message-container-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--message-area-header-color);
+    border-radius: 15px 15px 0 0;
+    padding: 10px;
+}
+
+.message-container-header>img {
+    width: 3rem;
+    height: 3rem;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border: 1px solid var(--text-color-less);
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.message-container-header>.message-container-header-name {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 0 10px;
+    color: var(--text-color);
+}
+
+.message-container-header>.message-container-header-name>span {
+    font-size: calc(1rem - 5px);
+}
+
+.clr-g {
+    color: var(--success-color);
+}
+
+.message-container-header> :is(.message-container-header-video-call,
+    .message-container-header-call,
+) {
+    margin-right: 1rem;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.message-container-header> :is(.message-container-header-video-call,
+    .message-container-header-call,
+):is(:hover, :focus) {
+    color: var(--text-color-less);
+    transition: color .3s linear;
+}
+
+.message-area {
+    overflow: scroll;
+    margin-bottom: auto;
+    width: 100%;
+    padding: 10px;
+}
+.message-area > .message {
+    position: relative;
+    margin-bottom: 2px;
+    font-size: calc(1rem - 4px);
+    color: black;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.message-area>p>span {
+    margin: 10px;
+    color: var(--text-color);
+    font-size: calc(1rem - 7px);
+    pointer-events: none;
+}
+
+.message-area :is(.right, .left) {
+    width: fit-content;
+    padding: 5px;
+    border-radius: 10px;
+    font-size: calc(1rem - 5px);
+    position: relative;
+}
+
+.message-area .right {
+    margin-left: auto;
+    border-bottom-right-radius: 0;
+    background-color: var(--info-text-color);
+}
+
+.message-area .left {
+    margin-right: auto;
+    background-color: var(--message-area-header-color);
+    border-bottom-left-radius: 0;
+}
+
+.message-area .info {
+    font-size: calc(1rem - 7px);
+    display: flex;
+    flex-direction: column;
+    color: var(--text-color);
+}
+
+.message-container-input-area {
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+    padding: 10px;
+    border-radius: 15px;
+    gap: 5px;
+    background-color: var(--message-area-header-color);
+}
+
+.message-container-input-area :is(.emoji-btn, .send-btn) {
+    cursor: pointer;
+    color: #2995af;
+    font-size: calc(2rem - 6px);
+    transition: color .2s linear;
+}
+
+.message-container-input-area :is(.emoji-btn, .send-btn):hover {
+    color: #2994af8a;
+}
+
+.message-container-input-area input {
+    position: relative;
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    padding: 5px;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.emoji-picker {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.no-message {
+    color: var(--text-color);
+}

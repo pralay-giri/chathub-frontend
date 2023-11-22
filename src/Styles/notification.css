@@ -1,0 +1,79 @@
+.notification-model {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(6px);
+    overflow: scroll;
+}
+
+.contactListArea .notification-model .notification-header {
+    background-color: var(--profile-background-color);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: calc(1rem - 4px);
+    color: var(--text-color);
+
+    .notification-modal-close-btn {
+        cursor: pointer;
+
+        :hover {
+            transition: color .2s linear;
+            color: black;
+        }
+    }
+
+    .title {
+        text-transform: capitalize;
+    }
+}
+
+.contactListArea .notification-model .notification-container {
+    .notification {
+        display: flex;
+        margin-block: 10px;
+        border-radius: 10px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--text-color);
+        padding: calc(1rem - 4px);
+        border: 1px solid black;
+        background-color: rgb(125, 229, 233);
+
+        .notification-content {
+            display: flex;
+            flex-direction: column;
+
+            .sender-name {
+                font-size: 1.3rem;
+                text-transform: lowercase;
+                text-decoration: underline;
+            }
+
+            .message {
+                display: flex;
+                flex-direction: column;
+
+                .timestamp {
+                    font-size: calc(1rem - 5px);
+                }
+            }
+        }
+    }
+
+    .notification-delete {
+        cursor: pointer;
+
+        :hover {
+            color: black;
+            transition: color .2 linear;
+        }
+    }
+
+    .no-notification {
+        text-align: center;
+    }
+}

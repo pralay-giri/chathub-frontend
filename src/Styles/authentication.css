@@ -1,0 +1,198 @@
+.authenticationDiv {
+    display: grid;
+    position: absolute;
+    grid-template-columns: 1fr 1fr;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 15px;
+    border: 1px solid var(--text-color-less);
+    background-color: var(--background-color);
+    overflow: hidden;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    min-width: 60%;
+}
+
+.authenticationDiv>img {
+    border-right: 1px solid var(--text-color-less);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+
+}
+
+.nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    list-style: none;
+    padding: 1rem;
+}
+
+.nav li>* {
+    position: relative;
+    color: var(--text-color-less);
+    text-decoration: none;
+    transition: color .3s;
+    font-size: large;
+}
+
+.nav li :is(.active, :hover, :focus) {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.nav li .active::before {
+    content: "";
+    inset: 0;
+    padding: 2px;
+    top: 22px;
+    left: -2px;
+    right: -2px;
+    border-radius: 10px;
+    background-color: var(--info-text-color);
+    position: absolute;
+    animation: animateActiveLink .2s linear;
+}
+
+@keyframes animateActiveLink {
+    0% {
+        opacity: 0;
+        background-color: transparent;
+    }
+
+    100% {
+        opacity: 1;
+        background-color: var(--info-text-color);
+    }
+}
+
+
+.authenticationNav>form {
+    padding-block: 10%;
+    padding-inline: 20%;
+    display: flex;
+    flex-direction: column;
+}
+
+.authenticationNav>form .profileDiv {
+    position: relative;
+    margin: auto;
+    width: 5rem;
+    height: 5rem;
+    margin-block: .5rem;
+    border-radius: 50%;
+    border: 1px solid var(--text-color-less);
+    background-color: var(--info-text-color);
+    overflow: hidden;
+}
+
+.authenticationNav>form .profileDiv img {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.authenticationNav #signin .profileDiv img {
+    cursor: pointer;
+}
+
+.authenticationNav>form .inputField {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.authenticationNav>form .inputField input {
+    width: 100%;
+    outline: none;
+    border: 1px solid var(--text-color-less);
+    padding: 5px;
+    color: var(--text-color);
+    transition: border .1s linear;
+}
+
+.authenticationNav>form .inputField input:hover {
+    border-color: var(--text-color);
+}
+
+.authenticationNav>form .password {
+    position: relative;
+}
+
+.authenticationNav>form .password input {
+    padding-right: 20px;
+}
+
+.authenticationNav>form .password button {
+    color: var(--text-color-less);
+    cursor: pointer;
+    position: absolute;
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    right: 0;
+    top: 2px;
+    transition: color .1s linear;
+}
+
+.authenticationNav>form .password button:is(:hover, :focus) {
+    color: var(--text-color);
+}
+
+.authenticationNav>form button[type="submit"] {
+    padding: 5px;
+    cursor: pointer;
+    background-color: var(--info-text-color);
+    outline: none;
+    border: none;
+    border: 1px solid var(--text-color-less);
+    font-size: 15px;
+    font-weight: 600;
+    color: whitesmoke;
+    transition: border .2s linear, outline .2s linear;
+}
+
+.authenticationNav>form button[type="submit"]:is(:hover, :focus) {
+    border: 1px solid var(--text-color);
+    outline: 1px solid var(--text-color);
+}
+
+.authenticationNav>form .info {
+    padding-block: 2px;
+    text-align: right;
+    font-size: 12px;
+    color: var(--text-color-less);
+}
+
+.authenticationNav>form .info>* {
+    color: var(--info-text-color);
+    font-size: 15px;
+    padding: 1px;
+    transition: all .2s linear;
+}
+
+.authenticationNav>form .info>*:is(:hover, :focus) {
+    outline: 1px solid var(--text-color-less);
+}
+
+
+@media (max-width: 768px) {
+    .authenticationDiv {
+        grid-template-columns: 1fr;
+    }
+
+    .authenticationDiv>img {
+        display: none;
+    }
+}
+
+@media (max-width: 450px) {
+    .authenticationDiv{
+        width: 90%;
+    }
+}

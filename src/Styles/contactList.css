@@ -1,0 +1,257 @@
+.contactListArea {
+    border-radius: 10px;
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    position: relative;
+}
+
+.contactLlstHead {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    padding: 5px;
+}
+
+.contactLlstHead .profile {
+    width: 3rem;
+    height: 3rem;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border: 1px solid var(--text-color-less);
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.contactLlstHead .user-name {
+    margin-block: auto;
+    margin-right: auto;
+    color: var(--text-color);
+}
+
+#contactSearchDiv {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #eaeaea;
+    border-radius: 10px;
+}
+
+#contactSearchInput {
+    width: 100%;
+    padding: 10px 20px;
+    border: none;
+    font-size: medium;
+    background-color: transparent;
+    outline: none;
+}
+
+#searchIcon {
+    margin: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: gray;
+}
+
+#searchIcon:hover {
+    color: black;
+}
+
+#chatHeading {
+    margin-block: 5px;
+    font-size: 2rem;
+    color: var(--text-color);
+}
+
+
+.navigation {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    /* padding-block: 1rem; */
+    padding: 1rem;
+}
+
+.navigation li {
+    margin-right: 2rem;
+}
+
+.navigation a {
+    color: var(--text-color-less);
+    text-decoration: none;
+    transition: color .3s;
+}
+
+.navigation a:is(:hover, :focus) {
+    color: var(--text-color);
+}
+
+.navigation .active {
+    position: relative;
+    color: var(--text-color);
+}
+
+.navigation .active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 4px;
+    border-radius: 10px;
+    background-color: #a0edff;
+}
+
+.chatListdiv {
+    overflow-y: auto;
+}
+
+.chatListdiv .chatlist {
+    color: var(--text-color);
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--text-color-less);
+    border-radius: 10px;
+    opacity: 0;
+}
+
+.contact, .group-contact{
+    cursor: pointer;
+    display: flex;
+    margin-block: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all .3s;
+    margin-bottom: auto;
+}
+
+.contact * {
+    pointer-events: none;
+}
+
+.contact div {
+    padding-inline: 6px;
+}
+
+.contact:hover,
+.group-contact:hover{
+    background-color: var(--contact-list-hover-color);
+}
+
+.status, .group-contact .time{
+    margin-left: auto;
+}
+
+.status, .group-contact .time{
+    font-size: small;
+}
+
+.onlineIndecator {
+    position: relative;
+}
+
+.onlineIndecator:after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--online-indecator);
+}
+
+.lastseen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: small;
+}
+
+.profileImg img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.contact{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-info .name, 
+.group-contact .group-info .name{
+    width: 50%;
+    font-size: 1rem;
+    text-wrap: nowrap;
+    color: var(--text-color);
+    text-overflow: ellipsis;
+}
+
+.contact-info .lastmessage,
+.group-contact .group-info .lastmessage{
+    font-size: .8rem;
+    color: var(--text-color-less);
+}
+
+.contactBtn {
+    cursor: pointer;
+    padding: 5px;
+    outline: none;
+    border: none;
+    color: var(--text-color-less);
+    background-color: transparent;
+    transform: color 3s;
+}
+
+.contactBtn * {
+    font-size: 2rem;
+}
+
+.contactBtn:is(:hover, :focus) {
+    color: var(--text-color);
+}
+
+.notification-btn{
+    position: relative;
+}
+
+#active-nofication::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    top: 0.8rem;
+    left: 1.9rem;
+    width: calc(1rem - 8px);
+    height: calc(1rem - 8px);
+    background-color: var(--online-indecator);
+    border-radius: 50%;
+}
+
+.group-contact {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+    cursor: pointer;
+    transition: all .3s linear;
+    border-radius: 10px;
+}
