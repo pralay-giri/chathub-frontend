@@ -1,11 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { context } from "../context/UserContext";
 
-const Message = ({ message }) => {
+const Message = (props) => {
     const { user } = useContext(context);
+    const { message } = props;
+    console.log("render");
     return (
-        <>
-            <div className={user.id === message.sender._id ? "message right" : "message left"}>
+        <div>
+            <div
+                className={
+                    user?.id === message?.sender?._id
+                        ? "message right"
+                        : "message left"
+                }
+            >
                 {message.messageContent}
                 <p className="info">
                     <span>
@@ -16,7 +24,7 @@ const Message = ({ message }) => {
                     </span>
                 </p>
             </div>
-        </>
+        </div>
     );
 };
 

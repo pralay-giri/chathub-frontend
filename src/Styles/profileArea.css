@@ -25,6 +25,25 @@
     margin: 1.5rem 10px;
 }
 
+.profile-area .profile-pic-area .profile-container {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--info-text-color);
+    border: 1px solid var(--text-color-less);
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    margin: auto;
+    P {
+        position: absolute;
+        font-size: 1.7rem;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
 .profile-area .profile-pic-area .profile-name {
     font-size: 1.5rem;
     text-transform: lowercase;
@@ -35,19 +54,15 @@
     color: var(--text-color);
     font-size: calc(1rem - 3px);
 }
-
-.profile-area .profile-pic-area .pic>img {
-    width: 10rem;
-    height: 10rem;
-    background-color: transparent;
-    outline: none;
-    border: none;
-    border: 1px solid var(--text-color-less);
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center;
-    overflow: hidden;
-    cursor: pointer;
+.pic {
+    .profile-text {
+        width: 2.5rem;
+        height: 2.5rem;
+        margin: auto;
+        font-size: 2rem;
+        background-color: var(--info-text-color);
+        border-radius: 50%;
+    }
 }
 
 .profile-area .profile-info-about {
@@ -83,7 +98,7 @@
     background-color: var(--contact-list-hover-color);
 }
 
-.profile-area .profile-body .group-participant-contact>img {
+.profile-area .profile-body .group-participant-contact > img {
     width: 2rem;
     height: 2rem;
     object-fit: cover;
@@ -91,21 +106,21 @@
     border-radius: 50%;
 }
 
-.profile-body .profile-body-header{
+.profile-body .profile-body-header {
     position: relative;
     font-weight: 600;
     padding: 5px;
     color: var(--text-color);
 }
 
-.profile-body .profile-body-header::before{
+.profile-body .profile-body-header::before {
     content: "";
     position: absolute;
     inset: 0;
     border-bottom: 1px solid var(--text-color-less);
 }
 
-.profile-area .profile-body .group-participant-contact>p {
+.profile-area .profile-body .group-participant-contact > p {
     font-size: small;
     text-transform: lowercase;
 }
@@ -125,7 +140,7 @@
 
 .profile-area .profile-footer :is(.profile-block, .profile-chat):hover {
     background-color: #7ec9dc;
-    transition: all .3s linear;
+    transition: all 0.3s linear;
 }
 
 .profile-area .profile-footer .profile-exit {
@@ -143,22 +158,22 @@
 }
 
 .profile-area .profile-footer .profile-block:hover,
-.profile-area .profile-footer .profile-chat:hover{
+.profile-area .profile-footer .profile-chat:hover {
     background-color: var(--contact-list-hover-color);
 }
 
-.profile-info-match .group-info{
+.profile-info-match .group-info {
     display: flex;
     flex-direction: row;
     gap: 10px;
     padding: 10px;
 }
 
-.profile-info-match .group-info > .group-icon{
+.profile-info-match .group-info > .group-icon {
     font-size: large;
     font-weight: 400;
 }
 
-.profile-info-match .group-info > span{
+.profile-info-match .group-info > span {
     color: var(--text-color);
 }

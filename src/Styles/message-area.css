@@ -16,28 +16,32 @@
     padding: 10px;
 }
 
-.message-container-header>img {
-    width: 3rem;
-    height: 3rem;
-    background-color: transparent;
-    outline: none;
-    border: none;
+.message-container-header > .profile-container {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--info-text-color);
     border: 1px solid var(--text-color-less);
     border-radius: 50%;
-    object-fit: cover;
-    object-position: center;
     overflow: hidden;
     cursor: pointer;
+    P {
+        position: absolute;
+        font-size: 1.7rem;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
 
-.message-container-header>.message-container-header-name {
+.message-container-header > .message-container-header-name {
     display: flex;
     flex-direction: column;
     margin: 0 auto 0 10px;
     color: var(--text-color);
 }
 
-.message-container-header>.message-container-header-name>span {
+.message-container-header > .message-container-header-name > span {
     font-size: calc(1rem - 5px);
 }
 
@@ -45,20 +49,26 @@
     color: var(--success-color);
 }
 
-.message-container-header> :is(.message-container-header-video-call,
-    .message-container-header-call,
-) {
+.message-container-header
+    > :is(
+        .message-container-header-video-call,
+        .message-container-header-call,
+
+    ) {
     margin-right: 1rem;
     color: var(--text-color);
     font-size: 1.5rem;
     cursor: pointer;
 }
 
-.message-container-header> :is(.message-container-header-video-call,
-    .message-container-header-call,
-):is(:hover, :focus) {
+.message-container-header
+    > :is(
+        .message-container-header-video-call,
+        .message-container-header-call,
+
+    ):is(:hover, :focus) {
     color: var(--text-color-less);
-    transition: color .3s linear;
+    transition: color 0.3s linear;
 }
 
 .message-area {
@@ -66,6 +76,9 @@
     margin-bottom: auto;
     width: 100%;
     padding: 10px;
+    &::-webkit-scrollbar-corner {
+        background-color: transparent;
+    }
 }
 .message-area > .message {
     position: relative;
@@ -76,7 +89,7 @@
     word-wrap: break-word;
 }
 
-.message-area>p>span {
+.message-area > p > span {
     margin: 10px;
     color: var(--text-color);
     font-size: calc(1rem - 7px);
@@ -124,7 +137,7 @@
     cursor: pointer;
     color: #2995af;
     font-size: calc(2rem - 6px);
-    transition: color .2s linear;
+    transition: color 0.2s linear;
 }
 
 .message-container-input-area :is(.emoji-btn, .send-btn):hover {

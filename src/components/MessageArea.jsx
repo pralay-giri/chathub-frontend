@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { context } from "../context/UserContext";
+import { UserContext, context } from "../context/UserContext";
 import {
     BsTelephoneFill,
     BsEmojiSmile,
@@ -9,18 +9,20 @@ import { BiSolidVideo } from "react-icons/bi";
 import { VscSend } from "react-icons/vsc";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import "../Styles/message-area.css";
 import axios from "axios";
 import { getCookie } from "../Cookie/cookieConfigure";
 import Message from "./Message";
 import Loadding from "../components/modals/Loadding";
 import { io } from "socket.io-client";
 import Setting from "./modals/Setting";
+import "../Styles/message-area.css";
+
+// Rest of your code
 var socket, selectedConversation;
 const URL = "http://localhost:5500";
 
 const MessageArea = () => {
-    const { selectedContact, contacts, setContacts, setNotifications } =
+    const { selectedContact, contacts, setContacts, setNotifications, user } =
         useContext(context);
     const [inputMessage, setInputMessage] = useState("");
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -106,6 +108,18 @@ const MessageArea = () => {
             selectedContact.isGroupChat
         ) {
             try {
+                setMessages((prev) => [
+                    ...prev,
+                    {
+                        sender: {
+                            name: user.name,
+                            _id: user.id,
+                        },
+                        messageContent: inputMessage,
+                        timeStamp: new Date(),
+                    },
+                ]);
+                setInputMessage((prev) => "");
                 const responce = await axios.post(
                     "/contact/newGrouopMessage",
                     {
@@ -118,17 +132,30 @@ const MessageArea = () => {
                         },
                     }
                 );
-                setMessages((prev) => [...prev, responce.data]);
+
                 socket.emit("new-message", responce.data);
             } catch (error) {
                 console.log(error);
             }
         } else {
             try {
+                setMessages((prev) => [
+                    ...prev,
+                    {
+                        sender: {
+                            name: user.name,
+                            _id: user.id,
+                        },
+                        messageContent: inputMessage,
+                        timeStamp: new Date(),
+                    },
+                ]);
+                setInputMessage((prev) => "");
+
                 const responce = await axios.post(
                     "/contact/newSingleMessage",
                     {
-                        selectedUserPhone: selectedContact.phone,
+                        gmail: selectedContact.gmail,
                         message: inputMessage,
                     },
                     {
@@ -137,13 +164,11 @@ const MessageArea = () => {
                         },
                     }
                 );
-                setMessages((prev) => [...prev, responce.data]);
                 socket.emit("new-message", responce.data);
             } catch (error) {
                 console.log(error);
             }
         }
-        setInputMessage((prev) => "");
     };
 
     useEffect(() => {
@@ -155,7 +180,7 @@ const MessageArea = () => {
                         authorization: `Bearer ${getCookie("token")}`,
                     },
                     params: {
-                        selectedUserPhone: selectedContact.phone,
+                        gmail: selectedContact.gmail,
                     },
                 });
                 setIsLoadding(() => false);
@@ -227,7 +252,7 @@ const MessageArea = () => {
     };
 
     const deleteAllChat = async () => {
-        if(!messages.length){
+        if (!messages.length) {
             return;
         }
         const selectedContactId = selectedContact._id;
@@ -262,14 +287,11 @@ const MessageArea = () => {
             }
         >
             {selectedContact ? (
-                <>
+                <React.Fragment>
                     <div className="message-container-header">
-                        <img
-                            src={selectedContact.profile}
-                            alt="profile"
-                            className="message-area-profile"
-                            width={"100px"}
-                        />
+                        <div className="profile-container">
+                            <p>{selectedContact.name[0]}</p>
+                        </div>
                         <p className="message-container-header-name">
                             {selectedContact.name.split(" ")[0].toLowerCase()}
                             <span
@@ -351,7 +373,7 @@ const MessageArea = () => {
                             />
                         </div>
                     )}
-                </>
+                </React.Fragment>
             ) : (
                 <h3 className="non-selected-text">
                     click any contact to see the message

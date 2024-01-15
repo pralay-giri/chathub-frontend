@@ -12,37 +12,30 @@ const GroupChat = () => {
     const [errorMsg, setErrorMsg] = useState("");
 
     const { groups, setGroups, setSelectedContact } = useContext(context);
-    useEffect(() => {
-        const fetchGroups = async () => {
-            try {
-                setIsLoading(true);
-                const responce = await axios.get("/contact/getGroups", {
-                    headers: {
-                        authorization: `Bearer ${getCookie("token")}`,
-                    },
-                });
-                if (!responce) {
-                    throw new Error("error in fetching data");
-                }
 
-                responce.data.map((group) => {
-                    group.profile = URL.createObjectURL(
-                        new Blob([new Uint8Array(group.profile.data)])
-                    );
-                });
-
-                console.log(responce.data);
-                // preserving all the group data
-                setGroups(responce.data);
-                console.log(responce.data);
-                setIsLoading(false);
-            } catch (error) {
-                setIsLoading(false);
-                setIsError(false);
-                setErrorMsg(error.message);
+    const fetchGroups = async () => {
+        try {
+            setIsLoading(true);
+            const responce = await axios.get("/contact/getGroups", {
+                headers: {
+                    authorization: `Bearer ${getCookie("token")}`,
+                },
+            });
+            if (!responce) {
+                throw new Error("error in fetching data");
             }
-        };
-        if(!groups.length){
+
+            setGroups(responce.data);
+            setIsLoading(false);
+        } catch (error) {
+            setIsLoading(false);
+            setIsError(false);
+            setErrorMsg(error.message);
+        }
+    };
+
+    useEffect(() => {
+        if (!groups.length) {
             fetchGroups();
         }
     }, []);
@@ -51,12 +44,14 @@ const GroupChat = () => {
     };
 
     const handleContactClick = (group) => {
-        console.log(group);
         setSelectedContact(group);
     };
 
     return (
         <div className="chatlist">
+            {!groups.length && (
+                <p className="no-contact">did't have any contacts</p>
+            )}
             {groups.map((group, index) => (
                 <GroupContact
                     group={group}
@@ -64,7 +59,7 @@ const GroupChat = () => {
                     key={index}
                 />
             ))}
-            {isLoading && <Loadding />} 
+            {isLoading && <Loadding />}
             {isError && (
                 <ErrorModal errorMsg={errorMsg} handleError={handleError} />
             )}

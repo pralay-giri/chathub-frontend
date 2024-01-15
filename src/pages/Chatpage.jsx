@@ -10,7 +10,8 @@ import { UserContext } from "../context/UserContext";
 
 const Chatpage = () => {
     const navigator = useNavigate();
-    // cheacking if the user has his token
+
+    // tracking the session
     useEffect(() => {
         const token = getCookie("token");
         const userInfo = auth(token);

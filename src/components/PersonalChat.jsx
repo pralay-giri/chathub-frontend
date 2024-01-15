@@ -32,8 +32,8 @@ function PersonalChat() {
                     prevDataLength,
                 },
             });
-            if (!responce) throw new Error("error in fetching contacts");
-            if (responce.data.length === 0) {
+            const contacts = responce?.data;
+            if (contacts.length === 0) {
                 setHasMore(false);
                 setLoadding(false);
                 return 0;
@@ -41,13 +41,7 @@ function PersonalChat() {
 
             // setting the contacts with profile photo
             setContacts((prevContacts) => {
-                responce.data.map((contact) => {
-                    const unit8array = new Uint8Array(contact.profile.data);
-                    const blobData = new Blob([unit8array]);
-                    contact.profile = URL.createObjectURL(blobData);
-                    return null;
-                });
-                return [...prevContacts, ...responce.data];
+                return [...prevContacts, ...contacts];
             });
             setPrevDataLength(responce.data.length);
             setPage((prev) => prev + 1);
@@ -88,6 +82,9 @@ function PersonalChat() {
     };
     return (
         <div className="chatlist">
+            {!contacts.length && (
+                <p className="no-contact">did't have any contacts</p>
+            )}
             {contacts.map((contact, index) => {
                 return (
                     <Contact

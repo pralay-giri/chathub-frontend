@@ -70,7 +70,6 @@
     color: var(--text-color);
 }
 
-
 .navigation {
     list-style: none;
     display: flex;
@@ -87,7 +86,7 @@
 .navigation a {
     color: var(--text-color-less);
     text-decoration: none;
-    transition: color .3s;
+    transition: color 0.3s;
 }
 
 .navigation a:is(:hover, :focus) {
@@ -118,6 +117,14 @@
     color: var(--text-color);
 }
 
+.chatListdiv .chatlist:has(.no-contact) {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
@@ -130,14 +137,15 @@
     opacity: 0;
 }
 
-.contact, .group-contact{
+.contact,
+.group-contact {
     cursor: pointer;
     display: flex;
     margin-block: 1rem;
     padding: 1rem;
     border-radius: 1rem;
     overflow: hidden;
-    transition: all .3s;
+    transition: all 0.3s;
     margin-bottom: auto;
 }
 
@@ -150,15 +158,17 @@
 }
 
 .contact:hover,
-.group-contact:hover{
+.group-contact:hover {
     background-color: var(--contact-list-hover-color);
 }
 
-.status, .group-contact .time{
+.status,
+.group-contact .time {
     margin-left: auto;
 }
 
-.status, .group-contact .time{
+.status,
+.group-contact .time {
     font-size: small;
 }
 
@@ -182,32 +192,57 @@
     font-size: small;
 }
 
-.profileImg img {
-    width: 35px;
-    height: 35px;
+.profileImg {
+    border: 1px solid var(--text-color);
+    width: 2.5rem;
+    height: 2.5rem;
+    overflow: hidden;
     border-radius: 50%;
-    object-fit: cover;
-    object-position: center;
+    position: relative;
+    background-color: #a0edff;
+    color: black;
+    p {
+        position: absolute;
+        font-size: 1.5rem;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    img {
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+        position: absolute;
+        inset: 0;
+        top: -0.5px;
+    }
 }
 
-.contact{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.contact {
+    overflow: hidden;
+    position: relative;
 }
 
-.contact-info .name, 
-.group-contact .group-info .name{
-    width: 50%;
-    font-size: 1rem;
+.contact-info,
+.group-contact .group-info {
+    width: 60%;
+    overflow: hidden;
     text-wrap: nowrap;
-    color: var(--text-color);
+}
+
+.contact-info .name,
+.group-contact .group-info .name {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+    overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .contact-info .lastmessage,
-.group-contact .group-info .lastmessage{
-    font-size: .8rem;
+.group-contact .group-info .lastmessage {
+    font-size: 0.8rem;
     color: var(--text-color-less);
 }
 
@@ -229,11 +264,11 @@
     color: var(--text-color);
 }
 
-.notification-btn{
+.notification-btn {
     position: relative;
 }
 
-#active-nofication::after{
+#active-nofication::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -250,8 +285,8 @@
     flex-direction: row;
     align-items: center;
     gap: 5px;
-    padding: 5px;
+    padding: 1rem;
     cursor: pointer;
-    transition: all .3s linear;
+    transition: all 0.3s linear;
     border-radius: 10px;
 }

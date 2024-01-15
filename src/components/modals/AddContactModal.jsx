@@ -7,15 +7,15 @@ import { context } from "../../context/UserContext";
 
 function AddContactModal({ closeModal, handleError, handleSuccess }) {
     const [inputData, setInputData] = useState("");
-    const {setHasMore} = useContext(context);
+    const { setHasMore } = useContext(context);
 
     const handleClick = async (e) => {
         e.preventDefault();
         const payload = {
-            receiverNumber: inputData,
+            email: inputData,
         };
         try {
-            await axios.post("/contact/addcontact", payload, {
+            const response = await axios.post("/contact/addcontact", payload, {
                 headers: {
                     Authorization: `Bearer ${getCookie("token")}`,
                 },
@@ -43,13 +43,13 @@ function AddContactModal({ closeModal, handleError, handleSuccess }) {
                     </button>
                 </div>
                 <input
-                    type="number"
+                    type="email"
                     value={inputData}
                     autoFocus
                     onChange={(e) => {
                         setInputData(e.target.value);
                     }}
-                    placeholder="phone number"
+                    placeholder="email"
                     id="add-contact-modal-body"
                 />
                 <div id="add-contact-modal-footer">

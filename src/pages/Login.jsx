@@ -8,9 +8,9 @@ import { auth } from "../Cookie/auth";
 
 function Login() {
     const navigate = useNavigate();
-    const [isLoadding, setIsLoadding] = useState(false);
-    const [phone, setPhone] = useState("");
+    const [gmail, setGmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isLoadding, setIsLoadding] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     useEffect(() => {
@@ -28,17 +28,21 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoadding(true);
-        const credentials = { phone, password };
+        const credentials = { gmail, password };
         try {
             const responce = await axios.get("/createuser/login", {
                 params: credentials,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Content-Encoding": "gzip",
+                },
             });
             setCookie("token", responce.data.token);
             setIsLoadding(false);
             navigate("/chatpage");
         } catch (error) {
             setIsLoadding(false);
-            console.log(error);
+            alert(error?.response?.data);
         }
     };
 
@@ -52,15 +56,15 @@ function Login() {
                     className="profile"
                 />
             </div>
-            <div className="phone inputField">
+            <div className="gmail inputField">
                 <input
-                    type="number"
-                    value={phone}
-                    placeholder="*phone"
-                    autoComplete="phone no"
+                    type="email"
+                    value={gmail}
+                    placeholder="*email"
+                    autoComplete="email"
                     required
                     onChange={(e) => {
-                        setPhone(e.target.value);
+                        setGmail(e.target.value);
                     }}
                 />
             </div>

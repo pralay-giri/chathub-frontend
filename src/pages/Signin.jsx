@@ -1,127 +1,80 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import defaultPtofile from "../Media/profile.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import axios from "axios";
 import { auth } from "../Cookie/auth";
 import { getCookie } from "../Cookie/cookieConfigure";
-const API = "http://localhost:5500/createuser/signin";
+import { generateKeys } from "../utils/cryptoGraphy";
 
 function Signin() {
     const [phone, setPhone] = useState("");
     const [gmail, setGmail] = useState("");
-    const [fileData, setFileData] = useState();
-    const [profile, setProfile] = useState();
     const [password, setPassword] = useState("");
     const [lastName, setLastName] = useState("");
     const [firstName, setFirstName] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isLoadding, setLoadding] = useState(false);
     const navigate = useNavigate();
-    const fileInputRef = useRef("");
 
     // cheacking if the user has his sassion
     useEffect(() => {
         const token = getCookie("token");
         const user = auth(token);
-        if(user){
+        if (user) {
             navigate("/chatpage");
         }
     }, [navigate]);
 
-    // previewing the selected photo for profile
-    const handleProfilePhoto = (e) => {
-        if (e.target.files.length) {
-            const url = URL.createObjectURL(e.target.files[0]);
-            setFileData(e.target.files[0]);
-            setProfile(url);
-        }
-    };
-
-    // removing the default file input btn
-    const getInputFile = () => {
-        fileInputRef.current.click();
-    };
-
-    // preventing the default beheaver of button on form
     const handlePasswordInput = (e) => {
         e.preventDefault();
     };
 
-    // requesting API
     const handleSubmit = async (e) => {
         setLoadding(true);
         e.preventDefault();
         const fullName = `${firstName} ${lastName}`.toUpperCase();
-        if (fullName && phone && password && profile) {
-            const fromData = new FormData();
-            fromData.set("name", fullName);
-            fromData.set("phone", phone);
-            fromData.set("password", password);
-            fromData.set("gmail", gmail);
-            fromData.set("profilePhoto", fileData);
+        if (fullName && password && gmail) {
+            const keys = await generateKeys();
+            localStorage.setItem("privateKey", keys.privateKey);
+            const payload = {
+                name: fullName,
+                password,
+                gmail,
+                phone,
+                publicKey: keys.publicKey,
+            };
             try {
-                const responce = await axios.post("/createuser/signin", fromData);
+                const responce = await axios.post(
+                    "/createuser/signin",
+                    payload
+                );
                 if (responce) {
+                    console.log(responce);
                     setLoadding(false);
                     navigate("/login");
                 }
             } catch (error) {
-                console.log(error);
                 setLoadding(false);
-                alert("Registration faild");
+                alert(error?.response?.data);
             }
         } else {
             setLoadding(false);
-            alert("field empty");
+            alert("plese fill the required field");
         }
     };
 
     return (
         <form id="signin" onSubmit={handleSubmit}>
-            <div
-                className="profileDiv"
-                onMouseEnter={(e) => {
-                    const elm = document.createElement("div");
-                    elm.innerText = "select profile";
-                    elm.className = "hoverDiv";
-                    elm.setAttribute(
-                        "style",
-                        "position: absolute; background-color: var(--online-indecator);font-size: 10px;border-radius: 3px; opacity: .8;"
-                    );
-                    document.body.appendChild(elm);
-                }}
-                onMouseMove={(e) => {
-                    const element = document.querySelector(".hoverDiv");
-                    if (element) {
-                        element.style.top = `${e.clientY}px`;
-                        element.style.left = `${e.clientX}px`;
-                    }
-                }}
-                onMouseOut={(e) => {
-                    const element = document.querySelector(".hoverDiv");
-                    if (element) {
-                        document.body.removeChild(element);
-                    }
-                }}
-            >
+            <div className="profileDiv">
                 <img
-                    src={profile ? profile : defaultPtofile}
+                    src={defaultPtofile}
                     alt="profile"
                     width={100}
                     className="profile"
-                    onClick={getInputFile}
                     name="profilePhoto"
                 />
             </div>
-            <input
-                type="file"
-                accept="image/*"
-                onChange={handleProfilePhoto}
-                hidden
-                ref={fileInputRef}
-                className="file-input"
-            />
             <div className="firstName inputField">
                 <input
                     type="text"
@@ -148,8 +101,7 @@ function Signin() {
                 <input
                     type="number"
                     value={phone}
-                    placeholder="*phone"
-                    required
+                    placeholder="phone"
                     onChange={(e) => {
                         setPhone(e.target.value);
                     }}
@@ -159,7 +111,8 @@ function Signin() {
                 <input
                     type="email"
                     value={gmail}
-                    placeholder="gmail"
+                    required
+                    placeholder="*gmail"
                     onChange={(e) => {
                         setGmail((prev) => e.target.value);
                     }}

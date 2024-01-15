@@ -2,7 +2,7 @@
     position: absolute;
     inset: 0;
     backdrop-filter: blur(5px);
-    animation: animate .2s linear;
+    animation: animate 0.2s linear;
     background-color: var(--background-color);
     overflow: auto;
 }
@@ -29,10 +29,10 @@
 
 .profile-div .profile-header .profile-header-back-btn:hover {
     color: var(--text-color-less);
-    transition: color .1s ease-in-out;
+    transition: color 0.1s ease-in-out;
 }
 
-.profile-div .profile-header>p {
+.profile-div .profile-header > p {
     font-size: large;
 }
 
@@ -51,10 +51,10 @@
     background-color: white;
     z-index: 1;
     border-radius: 50%;
-    opacity: .2;
+    opacity: 0.2;
 }
 
-.profile-div .profile-pic .pic>img {
+.profile-div .profile-pic .pic > img {
     width: 6rem;
     height: 6rem;
     border-radius: 50%;
@@ -73,7 +73,7 @@
     z-index: 2;
 }
 
-.profile-div .profile-info>div {
+.profile-div .profile-info > div {
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -81,24 +81,24 @@
     margin: 10px;
 }
 
-.profile-div .profile-info>div .edit-btn {
+.profile-div .profile-info > div .edit-btn {
     margin-left: auto;
     font-size: large;
     color: var(--text-color);
 }
 
-.profile-div .profile-info>div .edit-btn:hover {
+.profile-div .profile-info > div .edit-btn:hover {
     color: var(--text-color-less);
-    transition: color .2s ease-in-out;
+    transition: color 0.2s ease-in-out;
     cursor: pointer;
 }
 
-.profile-div .profile-info>div .info-head {
+.profile-div .profile-info > div .info-head {
     font-size: 10px;
     color: var(--text-color-less);
 }
 
-.profile-div .profile-info>div .info-value {
+.profile-div .profile-info > div .info-value {
     color: var(--text-color);
 }
 
@@ -113,7 +113,7 @@
     border-radius: 5px;
     background-color: var(--error-color);
     padding: 5px;
-    opacity: .9;
+    opacity: 0.9;
     font-size: medium;
     font-weight: 500;
     cursor: pointer;
@@ -127,8 +127,7 @@
     background-color: var(--profile-background-color);
 }
 
-
-.profile-div :is(.edit-name, .edit-about) {
+.profile-div :is(.edit-name, .edit-about, .edit-phone) {
     position: absolute;
     inset: 0;
     backdrop-filter: blur(5px);
@@ -137,30 +136,30 @@
     gap: 10px;
 }
 
-.profile-div :is(.edit-name, .edit-about)>.cross-btn {
+.profile-div :is(.edit-name, .edit-about, .edit-phone) > .cross-btn {
     cursor: pointer;
 }
 
-.profile-div :is(.edit-name, .edit-about)> :is(input, button) {
-    padding: 5px;
-    font-size: calc(1rem + 5px);
-    outline: none;
-    border: none;
-    border: 1px solid black;
-    border-radius: 5px;
-}
+.profile-div :is(.edit-name, .edit-about, .edit-phone) {
+    & > :is(input, button) {
+        padding: 5px;
+        font-size: calc(1rem + 5px);
+        outline: none;
+        border: none;
+        border: 1px solid black;
+        border-radius: 5px;
+    }
 
-.profile-div :is(.edit-name, .edit-about)>button {
-    background-color: var(--info-text-color);
-    opacity: .8;
-    cursor: pointer;
-}
-
-.profile-div :is(.edit-name, .edit-about)>button:hover {
-    opacity: 1;
-}
-
-.profile-div :is(.edit-name, .edit-about)>button:focus {
-    opacity: 1;
-    outline: 1px solid black;
+    & > button {
+        background-color: var(--info-text-color);
+        opacity: 0.8;
+        cursor: pointer;
+        &:hover {
+            opacity: 1;
+        }
+        &:focus-visible {
+            opacity: 1;
+            outline: 1px solid black;
+        }
+    }
 }

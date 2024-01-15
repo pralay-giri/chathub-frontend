@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { ImCross } from "react-icons/im";
 import { GoPersonAdd } from "react-icons/go";
 import "../../Styles/createGroupModal.css";
@@ -8,25 +8,23 @@ import { context } from "../../context/UserContext";
 import Loadding from "../modals/Loadding";
 import ErrorModal from "./ErrorModal";
 import defaultPtofile from "../../Media/profile.png";
-
+import { DEFAULT_PROFILE } from "../../utils/constant";
 const CreateGroup = ({ closeModal }) => {
     const { contacts } = useContext(context);
 
     const [groupName, setGroupName] = useState("");
-    const [phone, setPhone] = useState();
+    const [gmail, setGmail] = useState("");
     const [selectedContact, setSelectedContact] = useState([]);
     const [isLoadding, setIsLoadding] = useState(false);
     const [isError, setIsError] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
-    const [profile, setProfile] = useState("");
-    const [fileData, setFileData] = useState(null);
-    const fileInputRef = useRef("");
 
-    const ContactModal = ({ contact, onChildClick }) => {
+    const ContactModal = useCallback((props) => {
+        const { contact, onChildClick } = props;
         return (
             <div className="contactModal-container">
                 <img
-                    src={contact.profile}
+                    src={DEFAULT_PROFILE}
                     alt="img"
                     className="contactModal-img"
                     width={20}
@@ -40,64 +38,54 @@ const CreateGroup = ({ closeModal }) => {
                 />
             </div>
         );
-    };
+    }, []);
 
     const handleAdduser = async () => {
-        if (!phone) {
-            alert("enter number");
+        let isFound = false;
+        setIsLoadding(true);
+        if (!gmail) {
+            alert("enter valid gmail");
             return 0;
         }
+
+        // checking if the contact is in the contact list
         if (contacts.length) {
-            setIsLoadding(true);
             contacts.forEach((contact) => {
-                if (contact.phone === phone) {
+                if (contact.gmail === gmail) {
                     setSelectedContact((prev) => [
                         ...new Set([...prev, contact]),
                     ]);
-                    setIsLoadding(false);
+                    isFound = true;
                     return 0;
                 }
             });
-            setIsLoadding(false);
-        } else {
-            try {
-                setIsLoadding(true);
-                const responce = await axios.get("/contact/searchuser", {
-                    headers: {
-                        Authorization: `Bearer ${getCookie("token")}`,
-                    },
-                    params: {
-                        phone,
-                    },
-                });
-                const profileBinaryData = responce.data.profile.data;
-                const unit8Array = new Uint8Array(profileBinaryData);
-                const profilePhotoLink = URL.createObjectURL(
-                    new Blob([unit8Array])
-                );
-                console.log(responce);
-                const user = {
-                    profile: profilePhotoLink,
-                    name: responce.data.name,
-                    phone: responce.data.phone,
-                };
-                setSelectedContact((prev) => [...new Set([...prev, user])]);
+            if (isFound) {
                 setIsLoadding(false);
-            } catch (error) {
-                setIsLoadding(false);
-                alert("not found");
+                return;
             }
         }
-    };
 
-    const getInputFile = () => {
-        fileInputRef.current.click();
-    };
+        // if not found in contact list then search in data base
+        try {
+            const responce = await axios.get("/contact/searchuser", {
+                headers: {
+                    Authorization: `Bearer ${getCookie("token")}`,
+                },
+                params: {
+                    gmail,
+                },
+            });
 
-    const handleFile = (e) => {
-        const profileLink = URL.createObjectURL(e.target.files[0]);
-        setProfile(profileLink);
-        setFileData(e.target.files[0]);
+            const user = {
+                name: responce.data.name,
+                gmail: responce.data.gmail,
+            };
+            setSelectedContact((prev) => [...new Set([...prev, user])]);
+        } catch (error) {
+            setIsLoadding(false);
+            alert("not found");
+        }
+        setIsLoadding(false);
     };
 
     const handleClick = ({ name }) => {
@@ -107,31 +95,28 @@ const CreateGroup = ({ closeModal }) => {
     };
 
     const handleCreateGroup = async () => {
-        if (!(groupName && selectedContact.length && fileData)) {
+        if (!(groupName && selectedContact.length)) {
             alert("some input field is empty");
             return 0;
         }
         try {
             setIsLoadding(true);
-            const fromData = new FormData();
-            fromData.set("groupName", groupName);
-            fromData.set(
-                "numbers",
-                selectedContact.map((contact) => contact.phone)
-            );
-            fromData.set("profile", fileData);
-            const responce = await axios.post("contact/createGroup", fromData, {
+            const payload = {
+                groupName,
+                contacts: [...selectedContact],
+            };
+            const responce = await axios.post("/contact/createGroup", payload, {
                 headers: {
                     Authorization: `Bearer ${getCookie("token")}`,
                 },
             });
             if (!responce) throw new Error("Can't create group");
-            closeModal();
             setIsLoadding(false);
+            closeModal();
         } catch (error) {
+            console.log(error);
             setIsLoadding(false);
             setIsError(true);
-            console.log(error);
             setErrorMsg(error.message);
         }
     };
@@ -150,21 +135,11 @@ const CreateGroup = ({ closeModal }) => {
                 </div>
                 <div className="profile-area">
                     <img
-                        src={profile ? profile : defaultPtofile}
+                        src={defaultPtofile}
                         alt="profile"
                         width={100}
                         className="group-profile"
-                        onClick={getInputFile}
                         name="profilePhoto"
-                    />
-                    <input
-                        type="file"
-                        name="profile"
-                        className="group-profile-input"
-                        accept="image/*"
-                        hidden
-                        onChange={handleFile}
-                        ref={fileInputRef}
                     />
                 </div>
                 <div className="create-group-modal-body">
@@ -179,12 +154,12 @@ const CreateGroup = ({ closeModal }) => {
                     />
                     <div className="select-contact-input">
                         <input
-                            type="number"
+                            type="email"
                             className="group-name-input"
-                            value={phone}
-                            placeholder="select contact by number"
+                            value={gmail}
+                            placeholder="gmail"
                             onChange={(e) => {
-                                setPhone(e.target.value);
+                                setGmail(e.target.value);
                             }}
                         />
                         <GoPersonAdd

@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { context } from "../context/UserContext";
 import "../Styles/profileArea.css";
-import { FaArrowCircleRight, FaInfo } from "react-icons/fa";
-import { GoCircleSlash } from "react-icons/go";
+import { FaInfo } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { GrGroup, GrOpera } from "react-icons/gr";
+import { GrGroup } from "react-icons/gr";
 import { RxExit } from "react-icons/rx";
 import "../Styles/profileArea.css";
 import axios from "axios";
 import { getCookie } from "../Cookie/cookieConfigure";
-import Loadding from "./modals/Loadding";
 import GroupContact from "../components/GroupContact";
+import Contact from "./Contact";
 
 function ProfileArea() {
     const { selectedContact, setSelectedContact, contacts, setContacts, user } =
@@ -20,10 +19,10 @@ function ProfileArea() {
     const [commonGroups, setCommonGroup] = useState([]);
 
     const fetchDataForGroup = async () => {
-        const numbers = [
+        const gmails = [
             ...new Set(
                 selectedContact.participants.map(
-                    (participant) => participant.phone
+                    (participant) => participant.gmail
                 )
             ),
         ];
@@ -33,13 +32,9 @@ function ProfileArea() {
                 headers: {
                     authorization: `Bearer ${getCookie("token")}`,
                 },
-                params: { numbers },
+                params: { gmails: gmails },
             });
-            responce.data.map((user) => {
-                user.profile = URL.createObjectURL(
-                    new Blob([new Uint8Array(user.profile.data)])
-                );
-            });
+
             setAllParticipantsDetails([...new Set(responce.data)]);
             setIsLoading(false);
         } catch (error) {
@@ -55,19 +50,16 @@ function ProfileArea() {
                 headers: {
                     authorization: `Bearer ${getCookie("token")}`,
                 },
-                params: { phone: selectedContact.phone },
+                params: { id: selectedContact._id },
             });
             if (!responce) {
                 throw new Error("not found");
             }
-            responce.data.map((group) => {
-                group.profile = URL.createObjectURL(
-                    new Blob([new Uint8Array(group.profile.data)])
-                );
-            });
+
             setCommonGroup((prev) => responce.data);
             setIsLoading(false);
         } catch (error) {
+            console.log(error);
             setIsLoading(false);
         }
     };
@@ -86,10 +78,6 @@ function ProfileArea() {
         }
     };
 
-    const handleExitClick = async () => {
-        alert("comming soon");
-    };
-
     const handleDeleteChat = async () => {
         try {
             setIsLoading(true);
@@ -98,7 +86,7 @@ function ProfileArea() {
                     authorization: `Bearer ${getCookie("token")}`,
                 },
                 params: {
-                    phone: selectedContact.phone,
+                    gmail: selectedContact.gmail,
                 },
             });
             if (!responce) {
@@ -108,7 +96,7 @@ function ProfileArea() {
                 return [
                     ...new Set(
                         contacts.filter((contact) => {
-                            return contact.phone !== selectedContact.phone;
+                            return contact.gmail !== selectedContact.gmail;
                         })
                     ),
                 ];
@@ -131,58 +119,38 @@ function ProfileArea() {
                     <div className="profile-area-info-container">
                         <div className="profile-pic-area">
                             <div className="pic">
-                                <img
-                                    src={selectedContact.profile}
-                                    alt="profile"
-                                    width={50}
-                                />
+                                <p className="profile-text">
+                                    {selectedContact.name[0]}
+                                </p>
                                 <p className="profile-name">
                                     {selectedContact.name}
-                                </p>
-                                <p className="profile-number">
-                                    {selectedContact.phone}
                                 </p>
                             </div>
                         </div>
                         <div className="profile-body">
                             <p className="profile-body-header">participants</p>
-                            {allParticipantsDetails.map(
-                                (participant, index) => {
-                                    return (
-                                        <div
-                                            className="group-participant-contact"
-                                            key={index}
-                                        >
-                                            <img
-                                                src={participant.profile}
-                                                alt="profile"
-                                                width={100}
-                                            />
-                                            <p>{participant.name}</p>
-                                        </div>
-                                    );
-                                }
-                            )}
-                        </div>
-                        <div className="profile-footer">
-                            <div
-                                className="profile-exit"
-                                onClick={handleExitClick}
-                            >
-                                <RxExit />
-                                <p className="exit-group">exit group</p>
-                            </div>
+                            {allParticipantsDetails.map((participant) => {
+                                return (
+                                    participant._id !== user.id && (
+                                        <Contact
+                                            contact={participant}
+                                            onChildClick={setSelectedContact}
+                                            key={participant.gmail}
+                                        />
+                                    )
+                                );
+                            })}
                         </div>
                     </div>
                 ) : (
                     <div className="profile-area-info-container">
                         <div className="profile-pic-area">
                             <div className="pic">
-                                <img
-                                    src={selectedContact.profile}
-                                    alt="profile"
-                                    width={50}
-                                />
+                                <div className="profile-container">
+                                    <p className="profil-text">
+                                        {selectedContact.name[0]}
+                                    </p>
+                                </div>
                                 <p className="profile-name">
                                     {selectedContact.name}
                                 </p>

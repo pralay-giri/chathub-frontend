@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { context } from "../../context/UserContext";
 import { TbEdit } from "react-icons/tb";
 import { BiLogoGmail } from "react-icons/bi";
@@ -9,49 +9,43 @@ import {
     BsArrowLeftShort,
     BsFillPersonFill,
     BsTelephoneFill,
-    BsCameraFill,
 } from "react-icons/bs";
 import "../../Styles/profile.css";
 import { getCookie, removeCookie } from "../../Cookie/cookieConfigure";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { DEFAULT_PROFILE } from "../../utils/constant";
 
 const ProfileModal = ({ closeModal }) => {
     const { user } = useContext(context);
-    const [isMouseEnter, setIsMouseEnter] = useState(false);
     const [isVisibleNameChangeModal, setIsVisibleNameChangeModal] =
         useState(false);
     const [isChangeAboutVisible, setIsChangeAboutVisible] = useState(false);
+    const [isChangePhoneVisible, setIsChangePhoneVisible] = useState(false);
     const navigator = useNavigate();
-    const fileInputRef = useRef(null);
     const imgRef = useRef(null);
 
-    const handleProfileHover = (e) => {
-        setIsMouseEnter(true);
-    };
-
-    const handleMouseLeave = (e) => {
-        setIsMouseEnter(false);
-    };
-
-    const handleProfileChangeClick = () => {
-        fileInputRef.current.click();
-    };
-
     const handleNameChange = () => {
-        setIsChangeAboutVisible(false);
         setIsVisibleNameChangeModal(true);
     };
 
     const handleAboutChange = () => {
-        setIsVisibleNameChangeModal(false);
         setIsChangeAboutVisible(true);
+    };
+
+    const handlePhoneChange = () => {
+        setIsChangePhoneVisible(true);
     };
 
     const handleLogout = () => {
         removeCookie("token");
         navigator("/login");
     };
+    useEffect(() => {}, [
+        isVisibleNameChangeModal,
+        isChangeAboutVisible,
+        isChangePhoneVisible,
+    ]);
 
     const changeData = async (type, inputData) => {
         const endPoint = `/contact/update/${type}`;
@@ -59,51 +53,37 @@ const ProfileModal = ({ closeModal }) => {
             alert("empty input field");
             return 0;
         }
-        const data =
-            type === "name" ? { name: inputData } : { about: inputData };
         try {
-            console.log(data);
-            const responce = await axios.put(endPoint, data, {
-                headers: {
-                    Authorization: `Bearer ${getCookie("token")}`,
-                },
-            });
+            const responce = await axios.put(
+                endPoint,
+                { inputData },
+                {
+                    headers: {
+                        Authorization: `Bearer ${getCookie("token")}`,
+                    },
+                }
+            );
             if (!responce) {
                 throw new Error("error in updating");
             }
             setIsChangeAboutVisible(false);
             setIsVisibleNameChangeModal(false);
+            setIsChangePhoneVisible(false);
+            user[type] = inputData;
         } catch (error) {
             alert(error.message);
         }
     };
 
-    const handleProfileUpdate = async (e) => {
-        const file = e.target.files[0];
-        const fromData = new FormData();
-        try {
-            fromData.set("profile", file);
-            const responce = await axios.put("/contact/update/profile", fromData, {
-                headers: {
-                    Authorization: `Bearer ${getCookie("token")}`,
-                },
-            });
-            if (!responce) throw new Error("error in updating");
-            imgRef.current.src = URL.createObjectURL(file);
-            console.log(responce);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const EditJsx = ({ type }) => {
-        const [inputData, setInputData] = useState();
+        const [inputData, setInputData] = useState("");
         return (
             <div className={`edit-${type}`}>
                 <ImCross
                     onClick={() => {
                         setIsChangeAboutVisible(false);
                         setIsVisibleNameChangeModal(false);
+                        setIsChangePhoneVisible(false);
                     }}
                     className="cross-btn"
                 />
@@ -141,33 +121,15 @@ const ProfileModal = ({ closeModal }) => {
                         />
                         <p>Profile</p>
                     </div>
-                    <div
-                        className={
-                            isMouseEnter ? "profile-pic overlay" : "profile-pic"
-                        }
-                        onClick={handleProfileChangeClick}
-                        onMouseEnter={handleProfileHover}
-                        onMouseLeave={handleMouseLeave}
-                    >
-                        <input
-                            type="file"
-                            accept="image/*"
-                            hidden
-                            ref={fileInputRef}
-                            onChange={handleProfileUpdate}
-                            className="photo-input"
-                        />
+                    <div className="profile-pic">
                         <div className="pic">
                             <img
                                 ref={imgRef}
-                                src={user.profile}
+                                src={DEFAULT_PROFILE}
                                 alt="profile"
                                 width={50}
                             />
                         </div>
-                        {isMouseEnter && (
-                            <BsCameraFill className="profile-camera" />
-                        )}
                     </div>
                     <div className="profile-info">
                         <div className="profile-info-name">
@@ -205,8 +167,14 @@ const ProfileModal = ({ closeModal }) => {
                             <BsTelephoneFill />
                             <div className="phone">
                                 <p className="info-head">Phone</p>
-                                <p className="info-value">{user.phone}</p>
+                                <p className="info-value">
+                                    {user.phone || "add your phone number"}
+                                </p>
                             </div>
+                            <TbEdit
+                                className="edit-btn"
+                                onClick={handlePhoneChange}
+                            />
                         </div>
                     </div>
                     <div className="profile-footer">
@@ -218,6 +186,7 @@ const ProfileModal = ({ closeModal }) => {
                             log out
                         </div>
                     </div>
+                    {isChangePhoneVisible && <EditJsx type={"phone"} />}
                     {isChangeAboutVisible && <EditJsx type={"about"} />}
                     {isVisibleNameChangeModal && <EditJsx type={"name"} />}
                 </div>

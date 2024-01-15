@@ -2,7 +2,7 @@ import React from "react";
 import defaultPtofile from "../Media/profile.png";
 
 const GroupContact = ({ handleChildClick, group }) => {
-    const { lastMessage, name, profile } = group;
+    const { lastMessage, name } = group;
     return (
         <div
             onClick={() => {
@@ -11,11 +11,7 @@ const GroupContact = ({ handleChildClick, group }) => {
             className="group-contact"
         >
             <div className="profileImg">
-                <img
-                    src={profile ? profile : defaultPtofile}
-                    alt="profile"
-                    width={100}
-                />
+                <p>{name[0]}</p>
             </div>
             <div className="group-info">
                 <h3 className="name">{name}</h3>

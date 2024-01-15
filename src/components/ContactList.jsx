@@ -18,6 +18,7 @@ import { IoMdNotifications } from "react-icons/io";
 import Contact from "./Contact";
 import CreateGroup from "./modals/CreateGroup";
 import NotificationModal from "./modals/NotificationModal";
+import { DEFAULT_PROFILE } from "../utils/constant";
 
 const ContactList = () => {
     const navigator = useNavigate();
@@ -60,15 +61,11 @@ const ContactList = () => {
                         Authorization: `Bearer ${getCookie("token")}`,
                     },
                 });
-                const profileBinaryData = responce.data.profile.data;
-                const credential = responce.data.credential;
+                const credential = responce?.data?.credential;
 
-                // converting binary data to file
-                const unit8Array = new Uint8Array(profileBinaryData);
-                const profilePhotoLink = URL.createObjectURL(
-                    new Blob([unit8Array])
-                );
-                setUser({ profile: profilePhotoLink, ...credential });
+                setUser((prev) => {
+                    return { ...credential };
+                });
             } catch (error) {
                 setIsError(true);
                 setErrormsg(error.message);
@@ -76,7 +73,7 @@ const ContactList = () => {
             setLoadding(false);
         };
         fetchData();
-    }, [setLoadding, setUser]);
+    }, [setLoadding, setUser, success]);
 
     const handleSearchInput = (e) => {
         setContactInputField(e.target.value);
@@ -156,7 +153,6 @@ const ContactList = () => {
     };
 
     useEffect(() => {}, [notifications]);
-
     return (
         <div className="contactListArea">
             <div>
@@ -167,17 +163,9 @@ const ContactList = () => {
                             setShowProfile(true);
                         }}
                     >
-                        <img
-                            src={
-                                user?.profile
-                                    ? user.profile
-                                    : "https://www.pngitem.com/pimgs/m/146-1468281_profile-icon-png-transparent-profile-picture-icon-png.png"
-                            }
-                            alt="profile"
-                            width={50}
-                        />
+                        <img src={DEFAULT_PROFILE} alt="profile" width={50} />
                     </button>
-                    <p className="user-name">{user?.name.toLowerCase()}</p>
+                    <p className="user-name">{user?.name?.toLowerCase()}</p>
                     <button
                         onClick={() => {
                             setIsAddContactModalVisible(true);

@@ -1,51 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Dosis&family=Mukta:wght@300&family=Nunito&family=Pacifico&family=REM:wght@500&family=Tilt+Neon&family=Unbounded&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Dosis&family=Mukta:wght@300&family=Nunito&family=Pacifico&family=REM:wght@500&family=Tilt+Neon&family=Unbounded&display=swap");
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 :root {
-  --background-color: #d3f4fc;
-  --wraper-color: #e0eff3;
-  --wraper-border-color: #fefefe;
-  --text-color: #585858;
-  --text-color-less: #8b8b8b;
-  --online-indecator: #44ff85;
-  --contact-list-hover-color: #e8fbff;
-  --info-text-color: #90def1;
-  --modal-background-color: rgba(244, 226, 226, 0.1);
-  --error-color: #ed604b;
-  --error-color-less: #f42100c9;
-  --profile-background-color: #90def1;
-  --success-color: #4aac6c;
-  --success-color-less: #4aac6cc6;
-  --message-area-header-color: #eaeaea;
+    --background-color: #d3f4fc;
+    --wraper-color: #e0eff3;
+    --wraper-border-color: #fefefe;
+    --text-color: #585858;
+    --text-color-less: #8b8b8b;
+    --online-indecator: #44ff85;
+    --contact-list-hover-color: #e8fbff;
+    --info-text-color: #90def1;
+    --modal-background-color: rgba(244, 226, 226, 0.1);
+    --error-color: #ed604b;
+    --error-color-less: #f42100c9;
+    --profile-background-color: #90def1;
+    --success-color: #4aac6c;
+    --success-color-less: #4aac6cc6;
+    --message-area-header-color: #eaeaea;
 }
 
 ::selection {
-  background-color: #15d1c4;
+    background-color: #15d1c4;
 }
 
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html {
-  background-color: var(--background-color);
-  font-family: 'REM', sans-serif;
-  font-family: 'Unbounded', sans-serif;
+    background-color: var(--background-color);
+    font-family: "REM", sans-serif;
+    font-family: "Unbounded", sans-serif;
 }
 
 body {
-  position: absolute;
-  inset: 0;
-  margin: 1rem;
-  background-color: var(--wraper-color);
-  border: 2px solid var(--wraper-border-color);
-  border-radius: 10px;
-  overflow: hidden;
+    position: absolute;
+    inset: 0;
+    background-color: var(--wraper-color);
+    border: 2px solid var(--wraper-border-color);
+    overflow: hidden;
 }

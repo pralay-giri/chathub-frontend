@@ -1,29 +1,28 @@
 import React from "react";
-
+import { DEFAULT_PROFILE } from "../utils/constant";
 const Contact = ({ contact, onChildClick }) => {
-    const defaultProfile =
-        "https://png.pngitem.com/pimgs/s/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png";
-
     const handleClick = () => {
         onChildClick(contact);
     };
-    const { name, profile, lastActive, status, phone } = contact;
+    const { name, lastActive, status, phone } = contact;
+
     return (
         <div className="contact" onClick={handleClick}>
             <div className="profileImg">
-                <img
-                    src={profile ? profile : defaultProfile}
-                    alt="profile"
-                    width={100}
-                />
+                {name ? (
+                    <p className="profile-text">{name[0]}</p>
+                ) : (
+                    <img
+                        className="profile-image"
+                        src={DEFAULT_PROFILE}
+                        alt="profile"
+                    />
+                )}
             </div>
             <div className="contact-info">
                 <h1 className="name">
                     {name ? name.split(" ")[0].toLowerCase() : phone}
                 </h1>
-                {/*<p className="lastmessage">
-                    {"no message"}
-                </p>*/}
             </div>
             <div className="status">
                 {status === "online" ? (
