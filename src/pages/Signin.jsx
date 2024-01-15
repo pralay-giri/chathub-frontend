@@ -5,7 +5,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import axios from "axios";
 import { auth } from "../Cookie/auth";
 import { getCookie } from "../Cookie/cookieConfigure";
-import { generateKeys } from "../utils/cryptoGraphy";
 
 function Signin() {
     const [phone, setPhone] = useState("");
@@ -35,14 +34,11 @@ function Signin() {
         e.preventDefault();
         const fullName = `${firstName} ${lastName}`.toUpperCase();
         if (fullName && password && gmail) {
-            const keys = await generateKeys();
-            localStorage.setItem("privateKey", keys.privateKey);
             const payload = {
                 name: fullName,
                 password,
                 gmail,
                 phone,
-                publicKey: keys.publicKey,
             };
             try {
                 const responce = await axios.post(

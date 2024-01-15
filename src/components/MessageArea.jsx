@@ -19,7 +19,7 @@ import "../Styles/message-area.css";
 
 // Rest of your code
 var socket, selectedConversation;
-const URL = "http://localhost:5500";
+const URL = "https://chathub-api-2eym.onrender.com";
 
 const MessageArea = () => {
     const { selectedContact, contacts, setContacts, setNotifications, user } =
